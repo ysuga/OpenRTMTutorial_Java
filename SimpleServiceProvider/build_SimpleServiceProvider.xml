@@ -1,0 +1,33 @@
+<!--
+# -*- Buildfile -*-
+# @file  build_SimpleServiceProvider.xml
+# @brief RTComponent makefile for "SimpleServiceProvider component"
+# @date  $Date$
+#
+# $Id$
+ -->
+<project name="SimpleServiceProvider" default="compile">
+	<property name="source" value="src" />
+	<property name="dest" value="bin" />
+	<property environment="env" />
+
+	<target name="mkdir">
+		<mkdir dir="${dest}" />
+	</target>
+
+	<target name="idlcompile"  depends="mkdir">
+		<exec executable="${java.home}/../bin/idlj">
+			<arg line="-td 'src' -fall 'SimpleService.idl'"/>
+		</exec>
+	</target>
+
+	<target name="compile" depends="idlcompile">
+		<javac srcdir="${source}" destdir="${dest}">
+			<classpath>
+				<fileset dir="${env.RTM_JAVA_ROOT}/jar">
+					<include name="*.jar"/>
+				</fileset>
+			</classpath>
+		</javac>
+	</target>
+</project>
